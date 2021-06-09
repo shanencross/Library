@@ -8,7 +8,7 @@ namespace Library.Models
     public string Name { get; set; }
     public virtual ICollection<Checkout> Checkouts { get; set; }
     
-    public Patrons()
+    public Patron()
     {
       this.Checkouts = new HashSet<Checkout>();
     }

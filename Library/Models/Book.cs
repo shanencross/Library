@@ -9,7 +9,7 @@ namespace Library.Models
     public virtual ICollection<AuthorBook> AuthorBooks { get; set; }
     public virtual ICollection<Copy> Copies { get; set; }
 
-    public Author()
+    public Book()
     {
       this.AuthorBooks = new HashSet<AuthorBook>();
       this.Copies = new HashSet<Copy>();
