@@ -5,13 +5,18 @@ namespace Library.Models
 {
   public class LibraryContext : IdentityDbContext<ApplicationUser>
   {
-    // DbSet properties
+    public virtual DbSet<Author> Authors { get; set; }
+    public virtual DbSet<Book> Books { get; set; }
+    public virtual DbSet<Copy> Copies { get; set; }
+    public virtual DbSet<Patron> Patrons { get; set; }
+    public virtual DbSet<AuthorBook> AuthorBooks { get; set; }
+    public virtual DbSet<Checkout> Checkouts { get; set; }
+
+    public LibraryContext(DbContextOptions options): base(options) { }
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
       optionsBuilder.UseLazyLoadingProxies();
     }
-
-    public LibraryContext(DbContextOptions options): base(options) { }
   }
 }
