@@ -5,6 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace Library.Controllers
 {
@@ -33,7 +37,7 @@ namespace Library.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Book book, string authorName1, string authorName2, string authorName3, string authorName4)
+        public ActionResult Create(Book book, string authorName1, string authorName2, string authorName3, string authorName4, int numberOfCopies)
         {
             _db.Books.Add(book);
             _db.SaveChanges();
@@ -44,16 +48,34 @@ namespace Library.Controllers
             {
                 if (String.IsNullOrWhiteSpace(authorName) == false)
                 {
-                    Author author = new Author { Name=authorName };
-                    _db.Authors.Add(author);
-                    _db.SaveChanges();
+                    Author author = _db.Authors.FirstOrDefault(model => model.Name == authorName);
+                    if (author == null)
+                    {
+                        author = new Author { Name= authorName };
+                        _db.Authors.Add(author);
+                        _db.SaveChanges();
+                    }
+
                     AuthorBook authorBook = new AuthorBook { AuthorId=author.AuthorId, BookId=book.BookId };
                     _db.AuthorBooks.Add(authorBook);
                     _db.SaveChanges();    
                 }
             }
+
+            for (int i=0; i<numberOfCopies; i++)
+            {
+                Copy copy = new Copy() { BookId=book.BookId };
+                _db.Copies.Add(copy);
+                _db.SaveChanges();
+            }
             
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Details(int id)
+        {
+            Book book = _db.Books.FirstOrDefault(model => model.BookId == id);
+            return View(book);
         }
     }
 }
