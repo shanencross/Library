@@ -21,7 +21,7 @@
 
 @if (Model.GetNumberOfCopiesAvailable() != 0)
 {
-  @using (Html.BeginForm("Create", "Checkout"))
+  @using (Html.BeginForm("Create", "Checkout", FormMethod.Post))
   {
     <input type="submit" value="Checkout a copy"/>
   }
