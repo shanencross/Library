@@ -4,4 +4,15 @@
 
 <h1>Welcome to the Library!</h1>
 <p>@Html.ActionLink("See all books", "Index", "Books")</p>
-<p>@Html.ActionLink("Create an account", "Index", "Account")</p>
+
+@if (User.Identity.IsAuthenticated)
+{
+  @using (Html.BeginForm("LogOff", "Account"))
+  {
+      <input type="submit" class="btn btn-default" value="Log out" />
+  }
+}
+else
+{
+  <p>@Html.ActionLink("Log in/Register Account", "Index", "Account")</p>
+}

@@ -17,7 +17,7 @@
 @foreach(Book book in Model)
 {
   <ul>
-  <li>Title: @book.Title</li>
+  <li>@Html.ActionLink($"Title: {book.Title}", "Details", new { id = book.BookId })</li>
   @foreach (AuthorBook authorBook in book.AuthorBooks) 
   {
     <li>Author: @authorBook.Author.Name</li>
