@@ -14,5 +14,19 @@ namespace Library.Models
       this.AuthorBooks = new HashSet<AuthorBook>();
       this.Copies = new HashSet<Copy>();
     }
+
+    public int GetNumberOfCopiesAvailable()
+    {
+      int numberAvailable = 0;
+      foreach (Copy copy in Copies)
+      {
+        if (copy.IsCheckedOut == false)
+        {
+          numberAvailable += 1;
+        }
+      }
+
+      return numberAvailable;
+    }
   }
 }
