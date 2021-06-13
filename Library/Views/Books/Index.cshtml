@@ -16,11 +16,13 @@
 
 @foreach(Book book in Model)
 {
-  <p>Title: @book.Title</p>
+  <ul>
+  <li>Title: @book.Title</li>
   @foreach (AuthorBook authorBook in book.AuthorBooks) 
   {
-    <p>Author: @authorBook.Author.Name</p>
+    <li>Author: @authorBook.Author.Name</li>
   }
+  </ul>
 }
 
 <p>@Html.ActionLink("Add book", "Create")</p>

@@ -11,8 +11,17 @@
   @Html.LabelFor(model => model.Title);
   @Html.TextBoxFor(model => model.Title);
   <br>
-
-  @Html.Label("Author");
-  @Html.TextBox("authorName");
+  @Html.Label("First author:");
+  @Html.TextBox("authorName1");
+  <br>  
+  @Html.Label("Second author:");
+  @Html.TextBox("authorName2");
+  <br>
+  @Html.Label("Third author:");
+  @Html.TextBox("authorName3");
+  <br>
+  @Html.Label("Fourth author:");
+  @Html.TextBox("authorName4");
+  <br>
   <input type="submit" value="Submit" />
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Library.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Library.Controllers
@@ -32,17 +33,25 @@ namespace Library.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Book book, string authorName)
+        public ActionResult Create(Book book, string authorName1, string authorName2, string authorName3, string authorName4)
         {
-            Author author = new Author { Name=authorName };
             _db.Books.Add(book);
             _db.SaveChanges();
-            _db.Authors.Add(author);
-            _db.SaveChanges();
 
-            AuthorBook authorBook = new AuthorBook { AuthorId=author.AuthorId, BookId=book.BookId };
-            _db.AuthorBooks.Add(authorBook);
-            _db.SaveChanges();
+            List<string> authorNames = new List<string> { authorName1, authorName2, authorName3, authorName4 };
+            
+            foreach (string authorName in authorNames)
+            {
+                if (String.IsNullOrWhiteSpace(authorName) == false)
+                {
+                    Author author = new Author { Name=authorName };
+                    _db.Authors.Add(author);
+                    _db.SaveChanges();
+                    AuthorBook authorBook = new AuthorBook { AuthorId=author.AuthorId, BookId=book.BookId };
+                    _db.AuthorBooks.Add(authorBook);
+                    _db.SaveChanges();    
+                }
+            }
             
             return RedirectToAction("Index");
         }
