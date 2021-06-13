@@ -1,0 +1,18 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Library.Models.Book;
+
+<h1>Add a Book</h1>
+
+@using (Html.BeginForm())
+{
+  @Html.LabelFor(model => model.Title);
+  @Html.TextBoxFor(model => model.Title);
+  <br>
+
+  @Html.Label("Author");
+  @Html.TextBox("authorName");
+  <input type="submit" value="Submit" />
+}
