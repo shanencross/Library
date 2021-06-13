@@ -1,0 +1,30 @@
+@using System.Collections.Generic;
+
+@{
+  Layout = "_Layout";
+}
+
+@using Library.Models;
+@model Library.Models.Book;
+
+<h1>@Model.Title</h1>
+
+<ul>
+  @foreach (AuthorBook authorBook in @Model.AuthorBooks)
+  {
+    <li><h3>Author: @authorBook.Author.Name</h3></li>
+  }
+</ul>
+
+<p>Number of copies of available: @Model.GetNumberOfCopiesAvailable()</p>
+
+
+@if (Model.GetNumberOfCopiesAvailable() != 0)
+{
+  @using (Html.BeginForm("Create", "Checkout"))
+  {
+    <input type="submit" value="Checkout a copy"/>
+  }
+}
+
+<p>@Html.ActionLink("Return to list of book", "Index")</p>
