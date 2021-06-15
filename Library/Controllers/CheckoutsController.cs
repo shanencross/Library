@@ -34,11 +34,36 @@ namespace Library.Controllers
     }
 
 
-    // [HttpPost]
-    // public async Task<ActionResult> Create()
-    // {
-    //   var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-    //   var currentUser = await _userManager.FindByIdAsync(userId);
-    // } 
+    [HttpPost]
+    public async Task<ActionResult> Create(Book book)
+    {
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+
+
+      Copy copyToCheckout = null;
+      foreach (Copy copy in book.Copies)
+      {
+        if (copy.IsCheckedOut == false )
+        {
+          copyToCheckout = copy;
+          break;
+        }
+      }
+      copyToCheckout.IsCheckedOut = true;
+      _db.Entry(copyToCheckout).State = EntityState.Modified;
+      _db.SaveChanges();
+
+      Patron patron = _db.Patrons.FirstOrDefault(patron => patron.Name == currentUser.Email);
+
+      Checkout newCheckout = new Checkout() { PatronId=patron.PatronId, CopyId=copyToCheckout.CopyId};
+      int numberOfDaysDue = 14;
+      newCheckout.DueDate = DateTime.Today.AddDays(numberOfDaysDue);
+
+      _db.Checkouts.Add(newCheckout);
+      _db.SaveChanges();
+
+      return RedirectToAction("Details", "Book", new { id=book.BookId } );
+    } 
   }
 }
