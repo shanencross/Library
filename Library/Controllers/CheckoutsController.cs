@@ -63,7 +63,7 @@ namespace Library.Controllers
       _db.Checkouts.Add(newCheckout);
       _db.SaveChanges();
 
-      return RedirectToAction("Details", "Book", new { id=book.BookId } );
+      return RedirectToAction("Details", "Books", new { id=book.BookId } );
     } 
   }
 }

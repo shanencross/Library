@@ -21,7 +21,7 @@
 
 @if (Model.GetNumberOfCopiesAvailable() != 0)
 {
-  @using (Html.BeginForm("Create", "Checkout", FormMethod.Post))
+  @using (Html.BeginForm("Create", "Checkouts", FormMethod.Post))
   {
     @Html.HiddenFor(model => model.BookId);
     <input type="submit" value="Checkout a copy"/>
