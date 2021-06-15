@@ -23,6 +23,7 @@
 {
   @using (Html.BeginForm("Create", "Checkout", FormMethod.Post))
   {
+    @Html.HiddenFor(model => model.BookId);
     <input type="submit" value="Checkout a copy"/>
   }
 }
