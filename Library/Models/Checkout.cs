@@ -11,6 +11,6 @@ namespace Library.Models
     public DateTime DueDate { get; set; }
     public virtual ApplicationUser User { get; set; }
     public virtual Patron Patron { get; set; }
-    public virtual Copy Copies { get; set; }
+    public virtual Copy Copy { get; set; }
   }
 }
