@@ -1,0 +1,20 @@
+@{
+  Layout = "_Layout";
+}
+
+@using System.Collections.Generic;
+@using Library.Models;
+@model List<Library.Models.Checkout>
+
+<h1>Books you have checked out</h1>
+<h3>Current user: @User.Identity.Name</h3>
+
+<p>Here is a list of all the copies of books you have checked out from the library.</p>
+
+<ul>
+  @foreach(Checkout checkout in Model)
+  {
+    Book book = checkout.Copy.Book;
+    <li>@Html.ActionLink($"{book.Title}", "Details", "Books", new { id=book.BookId }) | @checkout.DueDate.ToShortDateString()</li>
+  }
+</ul>
