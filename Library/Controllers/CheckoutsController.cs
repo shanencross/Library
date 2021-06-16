@@ -29,21 +29,21 @@ namespace Library.Controllers
     {
       var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
       var currentUser = await _userManager.FindByIdAsync(userId);
-      var userCheckouts = _db.Checkouts.Where(entry => entry.User.Id == currentUser.Id).ToList();
+      var userCheckouts = _db.Checkouts.Where(entry => entry.Patron.Name == currentUser.UserName).ToList();
       return View(userCheckouts);
     }
 
-
     [HttpPost]
-    public async Task<ActionResult> Create(Book book)
+    public async Task<ActionResult> Create(int bookId)
     {
       var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
       var currentUser = await _userManager.FindByIdAsync(userId);
 
+      Book book = _db.Books.FirstOrDefault(book => book.BookId == bookId);
 
       Copy copyToCheckout = null;
       foreach (Copy copy in book.Copies)
-      {
+      { 
         if (copy.IsCheckedOut == false )
         {
           copyToCheckout = copy;
@@ -54,8 +54,7 @@ namespace Library.Controllers
       _db.Entry(copyToCheckout).State = EntityState.Modified;
       _db.SaveChanges();
 
-      Patron patron = _db.Patrons.FirstOrDefault(patron => patron.Name == currentUser.Email);
-
+      Patron patron = _db.Patrons.FirstOrDefault(patron => patron.Name == currentUser.UserName);
       Checkout newCheckout = new Checkout() { PatronId=patron.PatronId, CopyId=copyToCheckout.CopyId};
       int numberOfDaysDue = 14;
       newCheckout.DueDate = DateTime.Today.AddDays(numberOfDaysDue);
