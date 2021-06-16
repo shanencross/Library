@@ -1,0 +1,22 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Library.Models.Book
+
+<h1>Search for a Book</h1>
+
+<p>Here you can search for a book by title and/or author.</p>
+
+@using (Html.BeginForm("SearchResults", "Books", FormMethod.Get))
+{
+  @Html.Label("Book title")
+  @Html.TextBox("title")
+  <br>
+  @Html.Label("Author name")
+  @Html.TextBox("authorName")
+  <br>
+  <input type="submit" value="Search books"/>
+}
+
+<p>@Html.ActionLink("Back to books list", "Index")</p>

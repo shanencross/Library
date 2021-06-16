@@ -75,8 +75,45 @@ namespace Library.Controllers
 
         public ActionResult Details(int id)
         {
-            Book book = _db.Books.FirstOrDefault(model => model.BookId == id);
+            Book book = _db.Books
+            .Include(book => book.Copies)
+            .FirstOrDefault(model => model.BookId == id);
+                
             return View(book);
+        }
+
+        public ActionResult Search()
+        {
+            return View();
+        }
+
+        public ActionResult SearchResults(string title, string authorName)
+        {
+            if (title == null)
+            {
+                title = "";
+            }
+
+            if (authorName == null)
+            {
+                authorName = "";
+            }
+
+            var booksMatchingTitle =_db.Books.Where(model => model.Title.Contains(title)).ToList();
+            List<Book> booksMatchingTitleAndAuthor = new List<Book>();
+            foreach (Book book in booksMatchingTitle)
+            {
+                foreach (AuthorBook authorBook in book.AuthorBooks)
+                {
+                    if (authorBook.Author.Name.Contains(authorName))
+                    {
+                        booksMatchingTitleAndAuthor.Add(book);
+                        break;
+                    }
+                }
+            }
+
+            return View(booksMatchingTitleAndAuthor);
         }
     }
 }

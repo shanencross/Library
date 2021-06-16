@@ -1,0 +1,23 @@
+@{
+  Layout = "_Layout";
+}
+
+@using Library.Models;
+@model List<Library.Models.Book>
+
+<h1>Search results</h1>
+
+  @foreach(Book book in Model)
+  {
+    <p>@book.Title</p>
+    <ul>
+    @foreach(AuthorBook authorBook in book.AuthorBooks)
+    {
+      <li>@authorBook.Author.Name</li>
+    }
+    </ul>
+  }
+
+  <p>@Html.ActionLink("Back to search", "Search")</p>
+
+  
