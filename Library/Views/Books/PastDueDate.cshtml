@@ -1,0 +1,22 @@
+@{
+  Layout = "_Layout";
+}
+
+@using System.Collections.Generic;
+@using Library.Models;
+@model List<Library.Models.Checkout>
+
+<h1>Books that are past due</h1>
+
+<p>Here is a list of all the copies of books that are past due </p>
+
+<ul>
+  @foreach(Checkout checkout in Model)
+  {
+    Book book = checkout.Copy.Book;
+    Patron patron = checkout.Patron;
+    Copy copy = checkout.Copy;
+    <li>@book.Title | @patron.Name | @checkout.DueDate.ToShortDateString() | @checkout.CopyId </li>
+    <!-- <li>$"{book.Title}", "Details", "Books", new { id=book.BookId }) | @checkout.DueDate.ToShortDateString()</li> -->
+  }
+</ul>
